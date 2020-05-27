@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        .back {
+            background-color:#f3f3f3;
+        }
+
+        /* highlighted text */
+        .title-highlight {
+            background: url(https://andyhooke.co.uk/wp-content/uploads/2018/02/yellow-brushstroke.png);
+            background-repeat: no-repeat;
+            background-size: 100% 95%;
+            text-align: center;
+            font-size: 50px;
+        }
+        .text-info {
+            display: flex;
+            display: row;
+        }
+        .text-info div {
+            flex: 1;
+        }
+        .text-info h1 {
+            font-size: 38px;
+        }
+        .highlights {
+            background: url(https://andyhooke.co.uk/wp-content/uploads/2018/02/yellow-brushstroke.png);
+            background-repeat: no-repeat;
+            background-size: 10% 95%;
+            margin: 20px 0px 20px 20px;
+        }
+        /* nav-bar */
+        .nav-logout {
+            float: right;
+        }
+        .top-nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+        .top-nav a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+        .top-nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        /* boxes */
+        .container {
+            display: flex;
+        }
+        .container div{
+            padding: 10px;
+            margin: 0 20px 0 20px;
+            background-color: rgb(232, 244, 255);
+        }
+        .box-left {
+            flex: 1;
+        }
+        .box-right {
+            flex: 1;
+        }
+        .descriptions {
+            font-size: 18px;
+        }
+        /* reviews */
+        .reviews {
+            display: flex;
+            flex-direction: column;
+        }
+        .reviews div {
+            padding: 10px;
+            margin: 0 20px 20px 20px;
+            background-color: rgb(232, 244, 255); 
+        }
+        .review-box {
+            flex: 1;
+        }
+        .user-review {
+            color: rgb(119, 119, 119);
+        }
+        .text-box {
+            display: flex;
+            flex-direction: column;
+            padding: 0 10px 10px 10px;
+            margin: 0 20cm 0 20px;
+            background-color: rgb(232, 244, 255);
+        }
+        .text-box textarea{
+            font-size: 18px;
+        }
+
+        /* Submit btn */
+        .search-bar {
+            width: 5cm;
+            height: 9mm;
+            border: 2px;
+            border-radius: 5px;
+            font-size: 17px;
+            padding: 2px;
+            padding-left: 10px;
+            outline: none;
+        }
+        .search-btn {
+            height: 10.5mm;
+            width: 20mm;
+            border-radius: 5px;
+            font-size: 18px;
+            background: #228b22;
+            outline: none;
+            color: rgb(230, 230, 230);
+            border: green;
+            padding-top: 2px;
+        }
+        .search-btn:hover {
+            cursor: pointer;
+            background-color: #1c741c;
+        }
+
+        /* Invalid Second Review */
+        .invalid-review {
+            color: red;
+            font-weight: bold;
+        }
+
+    </style>
+    <!--Nav Bar-->
+    <body class="back">
+        <nav class="top-nav">
+            <a href="/home">Home</a>
+            <div class="nav-logout">
+                <a href="/logout">Hi, {{ session.username }} Logout</a>
+            </div>
+        </nav>
+        <!--Title and Headers-->
+        <h1 class="title-highlight">{{ book.title }}</h1>
+        <div class="text-info">
+            <div class="topic">
+                <h1 class="title-highlight">Book Info</h1>
+            </div>
+            <div>
+                <h1 class="title-highlight">Info From Goodreads</h1>
+            </div>
+        </div>
+        <!--Info Boxes-->
+        <div class = "container">
+            <div class="box-left"> 
+                <p class="descriptions">Author:</p> 
+                <h1>{{ book.author }}</h1>
+                <p class="descriptions">Publication Year:</p>
+                <h1>{{ book.year}}</h1>
+                <p class="descriptions">ISBN:</p>
+                <h1>{{ book.isbn }}</h1>
+            </div>
+            <div class="box-right"> 
+                <p class="descriptions">Number of Ratings:</p>
+                <h1>{{book_info[1]}}</h1>
+                <p class="descriptions">Average Ratings:</p>
+                <h1>{{book_info[0]}}</h1>
+            </div>
+        </div>
+        <h1 class="highlights">Reviews</h1>
+        <!--Reviews-->
+        <div class="reviews">
+            {% for reviewer in data %}
+            <div class="review-box">
+                <p class="user-review">{{ reviewer.username }} rated it a {{ reviewer.rating }}</p>
+                <p>{{ reviewer.text }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        <!--TextBox Review-->
+        <div>
+            <form action="{{ url_for('books', isbn=book.isbn) }}" method="POST">
+                <div class="text-box">
+                    <p>Write a review..</p>
+                    {% if show %}
+                    <div class="invalid-review">Cannot submit more than one review</div>
+                    {% endif %}
+                    <div class="ratings">
+                        <select name="rating" required>
+                            <option selected value disabled> -- select rating -- </option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select> 
+                    </div>
+                    <textarea name="text-review" cols="100" rows="5" required></textarea>
+                    <button type="submit" class="search-btn">Submit</button>
+                </div>
+            </form>
+        </div>
+
+    </body>
+</html>

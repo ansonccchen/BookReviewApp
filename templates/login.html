@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <style>
+            .pad {
+                text-align: center;
+                padding: 10px;
+            } 
+            .invalid {
+                text-align: center;
+                color: red
+            }
+            .registration{
+                text-align: center;
+                color: rgb(146, 218, 40);
+            }
+            .back {
+                background-color: #f3f3f3;
+            }
+
+        </style>
+    </head>
+    <body class="back">
+        {% for x in get_flashed_messages() %}
+        <div class="registration">
+            <p>{{ x }}</p>
+        </div>
+        {% endfor %}
+
+        <form action="{{ url_for('login') }}" method="POST">
+            <h3 class="pad">Login Here</h3>
+            <div class="pad">
+                <input type="text" name="username" placeholder="Username">
+            </div>
+            <div class="pad">
+                <input type="password" name="password" placeholder="Password">
+            </div>
+            <div class="pad">
+                <button type="submit">Login</button>
+            </div>
+        </form>
+        {% if noUser %}
+        <div class="invalid">
+            <p>Please input your username</p>
+        </div>
+        {% elif noPass %}
+        <div class="invalid">
+            <p>Please input your password</p>
+        </div>
+        {% elif invalid %}
+        <div class="invalid">
+            <p>Invalid credentials, please try again</p>
+        </div>
+        {% endif %}
+    </body>
+</html>
