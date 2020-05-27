@@ -1,3 +1,3 @@
-# Project 1
+# Book Review Website
 
-Web Programming with Python and JavaScript
+A book review website that allows users to create an account, search for books, check other people's reviews & ratings, Goodreads ratings count & average rating, and leave reviews.
